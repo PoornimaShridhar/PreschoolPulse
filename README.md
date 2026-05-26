@@ -1,14 +1,8 @@
 ---
-title: Ads Ai Dashboard
-emoji: 👁
-colorFrom: blue
-colorTo: gray
+title: PreschoolPulse
 sdk: gradio
-sdk_version: 6.15.2
-python_version: '3.13'
 app_file: app.py
-pinned: false
-short_description: Ad management for Preschool
+python_version: 3.12
 ---
 
 Check out the configuration reference at https://huggingface.co/docs/hub/spaces-config-reference
