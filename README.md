@@ -61,6 +61,8 @@ This project is also set up to run as a Gradio Space.
 - Keep `LLM_PROVIDER=local` and point `LLM_MODEL_PATH` at a small GGUF file if you want local inference inside the Space
 - If you want the Space to download the model at startup, also set `LLM_MODEL_URL` to a direct GGUF download link
 - If no model path is configured, the app falls back to deterministic recommendations and still renders the dashboard
+- `llama-cpp-python` is optional for local development; the Space build does not require it because the app falls back cleanly when the package is absent
+- If you want the local GGUF path, install `llama-cpp-python==0.2.90` in your own environment; keep it out of the Space build if you want the fastest deploy
 
 Suggested secrets for live Google Ads data:
 
@@ -79,6 +81,8 @@ Suggested local LLM settings:
 - `LLM_TEMPERATURE=0.2`
 - `LLM_MAX_TOKENS=220`
 - `LLM_CONTEXT_SIZE=2048`
+
+If you want to test llama.cpp locally on your own machine, install `llama-cpp-python==0.2.90` separately in your dev environment rather than bundling it into the Space build.
 
 For the hackathon constraint, a small local model is the better fit than an external API because it keeps the demo self-contained, auditable, and easy to explain.
 

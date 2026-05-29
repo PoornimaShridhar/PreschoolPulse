@@ -1,3 +1,4 @@
 gradio>=5.0.0
 google-ads>=27.0.0
-llama-cpp-python>=0.3.0
+# Optional local-only LLM runtime for GGUF models:
+llama-cpp-python==0.2.90
