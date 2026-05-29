@@ -1,3 +1,18 @@
+---
+title: Ads Ai Dashboard
+emoji: 👁
+colorFrom: blue
+colorTo: gray
+sdk: gradio
+sdk_version: 6.15.2
+python_version: '3.13'
+app_file: app.py
+pinned: false
+short_description: Ad management for Preschool
+---
+
+Check out the configuration reference at https://huggingface.co/docs/hub/spaces-config-reference
+
 # PreschoolPulse
 
 PreschoolPulse is a small Gradio app for tracking preschool ad performance, leads, and budget recommendations.
