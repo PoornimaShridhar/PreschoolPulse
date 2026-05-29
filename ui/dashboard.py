@@ -76,7 +76,7 @@ def _recommendation_rows(snapshot: dict[str, Any], recommendations: list[dict[st
 
 
 def build_dashboard(settings: AppSettings) -> gr.Blocks:
-    metrics_service = MetricsService(settings.database_path)
+    metrics_service = MetricsService(settings)
     initial_state = metrics_service.build_state()
 
     css = """
@@ -128,6 +128,8 @@ def build_dashboard(settings: AppSettings) -> gr.Blocks:
 
         metrics_html = gr.HTML(value=f"<div class='metric-grid'>{_build_metrics_cards(initial_state['summary'])}</div>")
         insights = gr.Markdown(value=build_insight_text(initial_state["snapshot"], recommend_actions(initial_state["metric_snapshots"], settings.monthly_budget, settings.target_cost_per_lead)))
+        gr.Markdown("### AI Coach")
+        ai_coach_note = gr.Markdown(value=initial_state["ai_coach_note"])
 
         with gr.Row():
             refresh_button = gr.Button("Refresh demo data", variant="primary")
@@ -179,12 +181,13 @@ def build_dashboard(settings: AppSettings) -> gr.Blocks:
                 """
             )
 
-        def refresh() -> tuple[str, str, list[list[str]], list[list[str]], list[list[str]], list[list[str]], str]:
+        def refresh() -> tuple[str, str, str, list[list[str]], list[list[str]], list[list[str]], list[list[str]], str]:
             state = metrics_service.refresh()
             actions = recommend_actions(state["metric_snapshots"], settings.monthly_budget, settings.target_cost_per_lead)
             return (
                 f"<div class='metric-grid'>{_build_metrics_cards(state['summary'])}</div>",
                 build_insight_text(state["snapshot"], actions),
+                state["ai_coach_note"],
                 _campaign_rows(state["snapshot"]),
                 _lead_rows(state["leads"]),
                 _metric_rows(state["metric_snapshots"]),
@@ -194,7 +197,7 @@ def build_dashboard(settings: AppSettings) -> gr.Blocks:
 
         refresh_button.click(
             refresh,
-            outputs=[metrics_html, insights, campaigns_table, leads_table, metric_table, recommendations_table, rules_md],
+            outputs=[metrics_html, insights, ai_coach_note, campaigns_table, leads_table, metric_table, recommendations_table, rules_md],
         )
 
     return demo

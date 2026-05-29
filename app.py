@@ -1,15 +1,22 @@
+import os
+
 from config.settings import load_settings
 from data.db import initialize_database, seed_demo_content
+from engine.llm import prepare_local_model
 from ui.dashboard import build_dashboard
 import gradio as gr
 
 
 def main() -> None:
     settings = load_settings()
+    prepare_local_model(settings)
     initialize_database(settings.database_path)
     seed_demo_content(settings.database_path)
     demo = build_dashboard(settings)
-    demo.launch(server_name=settings.host, server_port=settings.port, share=False, css="""
+    is_hf_space = bool(os.getenv("SPACE_ID") or os.getenv("HF_SPACE_ID") or os.getenv("SYSTEM") == "spaces")
+    server_name = "0.0.0.0" if is_hf_space else settings.host
+    server_port = int(os.getenv("PORT", str(settings.port)))
+    demo.launch(server_name=server_name, server_port=server_port, share=False, css="""
     .hero {
         padding: 24px;
         border-radius: 24px;
